@@ -8,55 +8,79 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import android.util.Log;
+
 public class HomeActivity extends Activity {
+	
+	private static final String LOG_TAG = HomeActivity.class.getSimpleName();
+	private ActionBar actionBar;
+	private Action shareAction;
+	private boolean progressStarted = false;
+	private int titleGravity = Gravity.LEFT;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+        actionBar = (ActionBar) findViewById(R.id.actionbar);
         //actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.ic_title_home_demo));
+        
         actionBar.setTitle("Home");
-
-        final Action shareAction = new IntentAction(this, createShareIntent(), R.drawable.ic_title_share_default);
+        actionBar.setTitleGravity(Gravity.LEFT);
+        titleGravity = Gravity.LEFT;
+        
+        shareAction = new IntentAction(this, createShareIntent(), R.drawable.ic_title_share_default);
         actionBar.addAction(shareAction);
         final Action otherAction = new IntentAction(this, new Intent(this, OtherActivity.class), R.drawable.ic_title_export_default);
         actionBar.addAction(otherAction);
 
-        Button startProgress = (Button) findViewById(R.id.start_progress);
-        startProgress.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                actionBar.setProgressBarVisibility(View.VISIBLE);
-            }
-        });
-        
-        Button stopProgress = (Button) findViewById(R.id.stop_progress);
-        stopProgress.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                actionBar.setProgressBarVisibility(View.GONE);
-            }
-        });
-
-        Button removeActions = (Button) findViewById(R.id.remove_actions);
-        removeActions.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                actionBar.removeAllActions();
-            }
-        });
+        Button startProgress = (Button) findViewById(R.id.change_progress);
+        startProgress.setOnClickListener(onClickListener);
+                
+        Button removeActions = (Button) findViewById(R.id.remove_all_actions);
+        removeActions.setOnClickListener(onClickListener);
 
         Button addAction = (Button) findViewById(R.id.add_action);
-        addAction.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addAction.setOnClickListener(onClickListener);
+
+        Button removeAction = (Button) findViewById(R.id.remove_action);
+        removeAction.setOnClickListener(onClickListener);
+
+        Button removeShareAction = (Button) findViewById(R.id.remove_share_action);
+        removeShareAction.setOnClickListener(onClickListener);
+        
+        Button changeTitleGravityAction = (Button) findViewById(R.id.change_title_gravity);
+        changeTitleGravityAction.setOnClickListener(onClickListener);
+    }
+    
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()){
+			case (R.id.change_progress): {
+				if (!progressStarted) {
+					actionBar.setProgressBarVisibility(View.VISIBLE);
+					progressStarted = true;
+				} else {
+					actionBar.setProgressBarVisibility(View.GONE);
+					progressStarted = false;
+				}
+                break;
+			}
+			case (R.id.remove_all_actions): {
+                actionBar.removeAllActions();
+                break;
+			}
+			case (R.id.add_action): {
                 actionBar.addAction(new Action() {
                     @Override
                     public void performAction(View view) {
@@ -67,29 +91,36 @@ public class HomeActivity extends Activity {
                         return R.drawable.ic_title_share_default;
                     }
                 });
-            }
-        });
-
-        Button removeAction = (Button) findViewById(R.id.remove_action);
-        removeAction.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+			}
+			case (R.id.remove_action): {
                 int actionCount = actionBar.getActionCount();
                 if (actionCount > 0) {
 	                actionBar.removeActionAt(actionCount - 1);
 	                Toast.makeText(HomeActivity.this, "Removed action." , Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        Button removeShareAction = (Button) findViewById(R.id.remove_share_action);
-        removeShareAction.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+			}
+			case (R.id.remove_share_action): {
                 actionBar.removeAction(shareAction);
-            }
-        });
-    }
+                break;
+			}
+			case (R.id.change_title_gravity): {
+				if (titleGravity == Gravity.LEFT) {
+					actionBar.setTitleGravity(Gravity.CENTER);
+					titleGravity = Gravity.CENTER;
+				} else if (titleGravity == Gravity.CENTER) {
+					actionBar.setTitleGravity(Gravity.RIGHT);
+					titleGravity = Gravity.RIGHT;
+				} else if (titleGravity == Gravity.RIGHT) {
+					actionBar.setTitleGravity(Gravity.LEFT);
+					titleGravity = Gravity.LEFT;
+				}
+				break;
+			}
+			}
+		}
+	};
 
     public static Intent createIntent(Context context) {
         Intent i = new Intent(context, HomeActivity.class);

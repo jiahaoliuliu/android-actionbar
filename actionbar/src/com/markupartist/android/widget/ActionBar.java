@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ActionBar extends RelativeLayout implements OnClickListener {
-
+	
     private LayoutInflater mInflater;
     private RelativeLayout mBarView;
     private ImageView mLogoView;
@@ -116,6 +118,21 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
 
     public void setTitle(int resid) {
         mTitleView.setText(resid);
+    }
+    
+    /*
+     * Not in use because it is not accurate
+     */
+    /*
+    public int getTitleGravity() {
+    	return mTitleView.getGravity();
+    }*/
+    
+    public void setTitleGravity(int newGravity) {
+    	int actualGravity = mTitleView.getGravity();
+    	if (newGravity != actualGravity) {
+    		mTitleView.setGravity(newGravity);
+    	}
     }
 
     /**
