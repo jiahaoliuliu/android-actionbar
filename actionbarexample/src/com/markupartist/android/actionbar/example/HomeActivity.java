@@ -75,8 +75,10 @@ public class HomeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 int actionCount = actionBar.getActionCount();
-                actionBar.removeActionAt(actionCount - 1);
-                Toast.makeText(HomeActivity.this, "Removed action." , Toast.LENGTH_SHORT).show();
+                if (actionCount > 0) {
+	                actionBar.removeActionAt(actionCount - 1);
+	                Toast.makeText(HomeActivity.this, "Removed action." , Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
