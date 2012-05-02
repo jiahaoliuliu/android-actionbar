@@ -111,7 +111,6 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
         mBackIndicator.setVisibility(show? View.VISIBLE : View.GONE);
     }
 
-
     public void setTitle(CharSequence title) {
         mTitleView.setText(title);
     }
@@ -134,7 +133,36 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
     		mTitleView.setGravity(newGravity);
     	}
     }
+    
+    /*
+     * They do not works properly. 
+     * TODO: Check them and fix them
+     */
+    /*
+    public void increaseTitleSize() {
+    	float actualTextSize = mTitleView.getTextSize();
+    	actualTextSize += 2.0f;
+    	mTitleView.setTextSize(actualTextSize);
+    }
 
+    public void decreaseTitleSize() {
+    	float actualTextSize = mTitleView.getTextSize();
+    	actualTextSize -= 2.0f;
+    	mTitleView.setTextSize(actualTextSize);
+    }
+    */
+    
+    public float getTitleSize() {
+    	return mTitleView.getTextSize();
+    }
+    
+    public void setTitleSize(Float newTitleSize) {
+    	float actualTextSize = mTitleView.getTextSize();
+    	if (actualTextSize != newTitleSize) {
+    		mTitleView.setTextSize(newTitleSize);
+    	}
+    }
+    
     /**
      * Set the enabled state of the progress bar.
      * 

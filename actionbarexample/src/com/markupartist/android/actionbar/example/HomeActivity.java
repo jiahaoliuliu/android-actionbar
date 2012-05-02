@@ -23,6 +23,7 @@ public class HomeActivity extends Activity {
 	private Action shareAction;
 	private boolean progressStarted = false;
 	private int titleGravity = Gravity.LEFT;
+	private float defaultTitleSize = 0.0f;
 	
     /** Called when the activity is first created. */
     @Override
@@ -59,6 +60,13 @@ public class HomeActivity extends Activity {
         
         Button changeTitleGravityAction = (Button) findViewById(R.id.change_title_gravity);
         changeTitleGravityAction.setOnClickListener(onClickListener);
+        
+        Button increaseTitleSizeAction = (Button) findViewById(R.id.increase_title_size);
+        increaseTitleSizeAction.setOnClickListener(onClickListener);
+
+        Button originalTitleSizeAction = (Button) findViewById(R.id.original_title_size);
+        originalTitleSizeAction.setOnClickListener(onClickListener);
+
     }
     
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -115,6 +123,21 @@ public class HomeActivity extends Activity {
 				} else if (titleGravity == Gravity.RIGHT) {
 					actionBar.setTitleGravity(Gravity.LEFT);
 					titleGravity = Gravity.LEFT;
+				}
+				break;
+			}
+			case (R.id.increase_title_size): {
+				float actualTitleSize = actionBar.getTitleSize();
+				if (defaultTitleSize == 0.0f) {
+					defaultTitleSize = actualTitleSize;
+				}
+				float newTitleSize = actualTitleSize + 1.0f;
+				actionBar.setTitleSize(newTitleSize);
+				break;
+			}
+			case (R.id.original_title_size): {
+				if (defaultTitleSize != 0.0f) {
+					actionBar.setTitleSize(defaultTitleSize);
 				}
 				break;
 			}

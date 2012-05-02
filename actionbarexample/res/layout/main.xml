@@ -47,6 +47,17 @@
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:text="Change title gravity"/>
+	        <Button
+	            android:id="@+id/increase_title_size"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="Increase title size" />
+	        <Button
+	            android:id="@+id/original_title_size"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="Original title size" />
+	            
 	    </LinearLayout>
     </ScrollView>
 </LinearLayout>
