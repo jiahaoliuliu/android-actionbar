@@ -20,6 +20,7 @@ import java.util.LinkedList;
 
 import com.markupartist.android.widget.actionbar.R;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -316,19 +317,37 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
     }
 
     public static class IntentAction extends AbstractAction {
+        // The list of animations when starts a new activity
+        public static final int DEFAULT_ANIMATION = 0;
+        public static final int SLIDE_RIGHT_TO_LEFT = 1;
+        public static final int FADE_IN_FADE_OUT = 2;
+
+        private Activity mActivity;
         private Context mContext;
         private Intent mIntent;
+        private int mAnimation;
 
-        public IntentAction(Context context, Intent intent, int drawable) {
+        public IntentAction(Activity activity, Context context, Intent intent, int drawable, int animation) {
             super(drawable);
+            mActivity = activity;
             mContext = context;
             mIntent = intent;
+            mAnimation = animation;
         }
 
         @Override
         public void performAction(View view) {
             try {
-               mContext.startActivity(mIntent); 
+               mContext.startActivity(mIntent);
+               // Default animation
+               if (mAnimation == 0) {}
+               // Slide from left to right
+               else if (mAnimation == 1) {
+                   mActivity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+               // Fade in and fade out
+               } else if (mAnimation == 2) {
+                   mActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+               }
             } catch (ActivityNotFoundException e) {
                 Toast.makeText(mContext,
                         mContext.getText(R.string.actionbar_activity_not_found),

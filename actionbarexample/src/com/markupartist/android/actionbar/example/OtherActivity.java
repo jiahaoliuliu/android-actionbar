@@ -21,9 +21,17 @@ public class OtherActivity extends Activity {
         // You can also assign the title programmatically by passing a
         // CharSequence or resource id.
         //actionBar.setTitle(R.string.some_title);
-        actionBar.setHomeAction(new IntentAction(this, HomeActivity.createIntent(this), R.drawable.ic_title_home_default));
+        actionBar.setHomeAction(new IntentAction(this,
+                                                 this,
+                                                 HomeActivity.createIntent(this),
+                                                 R.drawable.ic_title_home_default,
+                                                 IntentAction.SLIDE_RIGHT_TO_LEFT));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.addAction(new IntentAction(this, createShareIntent(), R.drawable.ic_title_share_default));
+        actionBar.addAction(new IntentAction(this,
+                                             this,
+                                             createShareIntent(),
+                                             R.drawable.ic_title_share_default,
+                                             IntentAction.FADE_IN_FADE_OUT));
         actionBar.addAction(new ExampleAction());
     }
 
