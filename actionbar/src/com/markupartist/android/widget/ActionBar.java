@@ -321,16 +321,34 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
         public static final int DEFAULT_ANIMATION = 0;
         public static final int SLIDE_RIGHT_TO_LEFT = 1;
         public static final int FADE_IN_FADE_OUT = 2;
+        public static final int NO_ANIMATION = 9;
 
         private Activity mActivity;
-        private Context mContext;
         private Intent mIntent;
-        private int mAnimation;
+        private int mAnimation = DEFAULT_ANIMATION;
 
-        public IntentAction(Activity activity, Context context, Intent intent, int drawable, int animation) {
+        /**
+         * The default constructor of the class.
+         * @param activity The activity which should start
+         * @param intent The intent to launch, which starts a new activity
+         * @param drawable The image to show on the tab bar
+         */
+        public IntentAction(Activity activity, Intent intent, int drawable) {
             super(drawable);
             mActivity = activity;
-            mContext = context;
+            mIntent = intent;
+        }
+
+        /**
+         * The secondary constructor where the user can define the animation of the new activity.
+         * @param activity The activity which should start
+         * @param intent The intent to launch, which starts a new activity
+         * @param drawable The image to show on the tab bar
+         * @param animation The animation to show when the new activity appears on the screen
+         */
+        public IntentAction(Activity activity, Intent intent, int drawable, int animation) {
+            super(drawable);
+            mActivity = activity;
             mIntent = intent;
             mAnimation = animation;
         }
@@ -338,19 +356,21 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
         @Override
         public void performAction(View view) {
             try {
-               mContext.startActivity(mIntent);
+               mActivity.startActivity(mIntent);
                // Default animation
-               if (mAnimation == 0) {}
+               if (mAnimation == DEFAULT_ANIMATION) {}
                // Slide from left to right
-               else if (mAnimation == 1) {
+               else if (mAnimation == SLIDE_RIGHT_TO_LEFT) {
                    mActivity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                // Fade in and fade out
-               } else if (mAnimation == 2) {
+               } else if (mAnimation == FADE_IN_FADE_OUT) {
                    mActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+               } else if (mAnimation == NO_ANIMATION) {
+            	   mActivity.overridePendingTransition(0, 0);
                }
             } catch (ActivityNotFoundException e) {
-                Toast.makeText(mContext,
-                        mContext.getText(R.string.actionbar_activity_not_found),
+                Toast.makeText(mActivity,
+                        mActivity.getText(R.string.actionbar_activity_not_found),
                         Toast.LENGTH_SHORT).show();
             }
         }

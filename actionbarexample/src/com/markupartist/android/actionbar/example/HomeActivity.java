@@ -39,16 +39,12 @@ public class HomeActivity extends Activity {
         titleGravity = Gravity.LEFT;
         
         shareAction = new IntentAction(this,
-                                       this,
                                        createShareIntent(),
-                                       R.drawable.ic_title_share_default,
-                                       IntentAction.DEFAULT_ANIMATION);
+                                       R.drawable.ic_title_share_default);
         actionBar.addAction(shareAction);
         final Action otherAction = new IntentAction(this,
-                                                    this,
                                                     new Intent(this, OtherActivity.class),
-                                                    R.drawable.ic_title_export_default,
-                                                    IntentAction.DEFAULT_ANIMATION);
+                                                    R.drawable.ic_title_export_default);
         actionBar.addAction(otherAction);
 
         Button startProgress = (Button) findViewById(R.id.change_progress);
