@@ -25,6 +25,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -168,7 +169,33 @@ public class ActionBar extends RelativeLayout implements OnClickListener {
     		mTitleView.setTextSize(newTitleSize);
     	}
     }
+
+    /*
+     * Set and get the typeface (font)
+     */
+    public Typeface getTitleTypeface() {
+    	return mTitleView.getTypeface();
+    }
     
+    public void setTitleTypeface(Typeface newTypeface) {
+    	Typeface actualTypeface = mTitleView.getTypeface();
+    	if (actualTypeface != newTypeface) {
+    		mTitleView.setTypeface(newTypeface);
+    	}
+    }
+
+    /**
+     * Set the new typeface(font) for the title
+     * @param newTypeface The new typeface to set
+     * @param style       
+     */
+    public void setTitleTypeface(Typeface newTypeface, int style) {
+    	Typeface actualTypeface = mTitleView.getTypeface();
+    	if (actualTypeface != newTypeface) {
+    		mTitleView.setTypeface(newTypeface, style);
+    	}
+    }
+
     /**
      * Set the enabled state of the progress bar.
      * 
